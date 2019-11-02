@@ -1,0 +1,53 @@
+- hosts: server
+  tasks:
+    - name: yum update
+      yum: name=* state=latest
+
+    - name: yum install pakeages
+      yum:
+        name: "{{ packages }}"
+      vars:
+        packages:
+          - git
+          - wget
+          - curl
+          - sshpass
+      
+    - name: disable firewalld
+      systemd:
+        name: firewalld
+        state: stopped
+        enabled: false
+
+    - name: disable selinux
+      selinux: state=disabled
+
+    - copy: >
+        src=./all.sh    
+        dest=/tmp/all.sh
+        owner=root
+        group=root
+        mode=0755
+    
+    - name: install kubernetes
+      shell: >
+        sh /tmp/all.sh > log.txt
+  
+- hosts: master
+  tasks:  
+    - copy: >
+        src=./master.sh    
+        dest=/tmp/master.sh
+        owner=root
+        group=root
+        mode=0755
+
+- hosts: node
+  tasks:
+    - name: compy maste to node kubeadm join command 
+      shell: >
+        sshpass -p "vagrant" scp -o "StrictHostKeyChecking no" root@192.168.56.101:/etc/kubeadm_join_cmd.sh /etc/kubeadm_join_cmd.sh      
+    
+    - name: join kuberntes clouster
+      shell: >
+        sh /etc/kubeadm_join_cmd.sh >> log.txt
