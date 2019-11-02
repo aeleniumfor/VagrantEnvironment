@@ -42,6 +42,10 @@
         group=root
         mode=0755
 
+    - name: kubernetes init
+      shell: >
+        sh /tmp/master.sh
+
 - hosts: node
   tasks:
     - name: compy maste to node kubeadm join command 
