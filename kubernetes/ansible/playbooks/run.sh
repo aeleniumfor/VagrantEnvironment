@@ -10,4 +10,5 @@ ansible-playbook ./playbook.yml -i hosts --ask-pass
 # source ~/.bashrc
 
 mkdir ~/.kube
+rm -rf ~/.kube/*
 scp -o "StrictHostKeyChecking no" root@192.168.56.101:/root/.kube/config ~/.kube/config
