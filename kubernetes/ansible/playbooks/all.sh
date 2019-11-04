@@ -50,7 +50,7 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 EOF
 sysctl --system
-IPADDR=$(ip a show ens3 | grep inet | grep -v inet6 | awk '{print $2}' | cut -f1 -d/)
+IPADDR=$(ip a show eth1 | grep inet | grep -v inet6 | awk '{print $2}' | cut -f1 -d/)
 sed -i "/KUBELET_EXTRA_ARGS=/c\KUBELET_EXTRA_ARGS=--node-ip=$IPADDR" /etc/sysconfig/kubelet
 echo 'Environment="KUBELET_EXTRA_ARGS=--cloud-provider=external"' >> /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 # kubeletを再起動
