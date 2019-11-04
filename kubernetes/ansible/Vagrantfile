@@ -23,8 +23,6 @@ end
 
 
 $script = <<END
-yum -y update
-yum -y install git vim wget
 systemctl stop firewalld
 systemctl disable firewalld
 sudo sed -i -e 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
