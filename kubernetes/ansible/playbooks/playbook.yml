@@ -31,7 +31,7 @@
     
     - name: install kubernetes
       shell: >
-        sh /tmp/all.sh > log.txt
+        sh /tmp/all.sh >> log.txt
   
 - hosts: master
   tasks:  
@@ -44,7 +44,7 @@
 
     - name: kubernetes init
       shell: >
-        sh /tmp/master.sh
+        sh /tmp/master.sh >> log.txt
 
 - hosts: node
   tasks:
