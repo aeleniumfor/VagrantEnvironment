@@ -52,8 +52,8 @@ EOF
 sysctl --system
 IPADDR=$(ip a show eth1 | grep inet | grep -v inet6 | awk '{print $2}' | cut -f1 -d/)
 sed -i "/KUBELET_EXTRA_ARGS=/c\KUBELET_EXTRA_ARGS=--node-ip=$IPADDR" /etc/sysconfig/kubelet
-sed -i -e '/Environment="KUBELET_KUBECONFIG_ARGS=--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf"/Environment="KUBELET_KUBECONFIG_ARGS=--cloud-provider=external --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf"/g' /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
-
+sed -i -e '3,3d' /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+echo 'Environment="KUBELET_KUBECONFIG_ARGS=--cloud-provider=external --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf"' >> /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 # kubeletを再起動
 systemctl daemon-reload
 systemctl restart kubelet
