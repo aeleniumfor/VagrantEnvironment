@@ -42,16 +42,16 @@
         group=root
         mode=0755
 
-#     - name: kubernetes init
-#       shell: >
-#         sh /tmp/master.sh >> log.txt
+    - name: kubernetes init
+      shell: >
+        sh /tmp/master.sh >> log.txt
 
-# - hosts: node
-#   tasks:
-#     - name: compy maste to node kubeadm join command 
-#       shell: >
-#         sshpass -p "vagrant" scp -o "StrictHostKeyChecking no" root@192.168.56.101:/etc/kubeadm_join_cmd.sh /etc/kubeadm_join_cmd.sh      
+- hosts: node
+  tasks:
+    - name: compy maste to node kubeadm join command 
+      shell: >
+        sshpass -p "vagrant" scp -o "StrictHostKeyChecking no" root@192.168.56.101:/etc/kubeadm_join_cmd.sh /etc/kubeadm_join_cmd.sh      
     
-#     - name: join kuberntes clouster
-#       shell: >
-#         sh /etc/kubeadm_join_cmd.sh >> log.txt
+    - name: join kuberntes clouster
+      shell: >
+        sh /etc/kubeadm_join_cmd.sh >> log.txt
